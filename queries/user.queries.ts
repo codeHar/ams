@@ -16,3 +16,7 @@ export const CREATE_USER = `
     INSERT INTO user (first_name, last_name, email, password, phone, dob, gender, address)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 `;
+
+export const FIND_USER_WITH_EMAIL = `
+    SELECT * FROM user WHERE email = ?
+`;
