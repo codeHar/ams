@@ -53,24 +53,9 @@ export const userRegister = async (req: Request, res: Response) => {
       address,
     ]);
 
-    //finding created user
-    const [matches] = await db.query(FIND_USER_WITH_EMAIL, [email]);
-
-    const userData = (matches as RowDataPacket[])[0];
-
-    //creating token based on id and name
-    const token = jwt.sign(
-      { _id: userData?.id, name: userData?.first_name },
-      process.env.JWT_SECRET_KEY!,
-      {
-        expiresIn: "2 days",
-      }
-    );
-
     res.status(200).send(
       customResponse({
         message: "User created successfully",
-        payload: { token, userId: userData?.id, name: userData?.first_name },
       })
     );
   } catch (err) {
@@ -83,6 +68,58 @@ export const userRegister = async (req: Request, res: Response) => {
       .status(400)
       .send(
         customResponse({ message: "Error while creating User", status: false })
+      );
+  }
+};
+
+export const userLogin = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      throw new Error("All fields are required");
+    }
+
+    //finding created user
+    const [matches] = await db.query(FIND_USER_WITH_EMAIL, [email]);
+
+    if ((matches as RowDataPacket[]).length === 0) {
+      throw new Error("No User found with this email");
+    }
+
+    const userData = (matches as RowDataPacket[])[0];
+
+    const isMatch = bcrypt.compareSync(password, userData.password);
+
+    if (!isMatch) {
+      throw new Error("Password is incorrect");
+    }
+
+    //creating token based on id and name
+    const token = jwt.sign(
+      { _id: userData?.id, name: userData?.first_name },
+      process.env.JWT_SECRET_KEY!,
+      {
+        expiresIn: "2 days",
+      }
+    );
+
+    res.status(200).send(
+      customResponse({
+        message: "User logged in successfully",
+        payload: { token, userId: userData?.id, name: userData?.first_name },
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res
+      .status(400)
+      .send(
+        customResponse({ message: "Error while logging User", status: false })
       );
   }
 };
