@@ -7,14 +7,13 @@ const inputSchema = z.object({
   type: z.string().default("text").optional(),
   className: z.string().optional(),
   registerName: z.string().optional(),
-  validation: z.unknown().optional(),
 });
 
 type inputType = z.infer<typeof inputSchema>;
 
 export const Input = (props: inputType) => {
   const { name } = props;
-  const { registerName, validation, ...data } = props;
+  const { registerName, ...data } = props;
   const { register } = useFormContext();
 
   return (
@@ -28,7 +27,7 @@ export const Input = (props: inputType) => {
 
       <input
         {...data}
-        {...register(registerName ?? name, validation ?? undefined)}
+        {...register(registerName ?? name)}
         className="block w-full px-4 py-2 mt-2  bg-white border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"
       />
       <ErrorMessage

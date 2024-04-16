@@ -7,6 +7,8 @@
   font-family: "Montserrat", Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --navbar-height: 80px;
+  @apply text-primary;
 }
 
 * {
@@ -51,17 +53,12 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.main-layout {
+  @apply h-[calc(100%_-_var(--navbar-height))];
+}
+
+nav {
+  @apply h-[var(--navbar-height)];
 }
 
 .box-shadow-1 {
