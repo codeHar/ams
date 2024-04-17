@@ -10,7 +10,6 @@ const HomePage = () => {
         <SideBar />
         <div className="main-content w-4/5 bg-gray-200 h-full p-5">
           <div className="bg-white rounded-lg h-full p-5 overflow-auto">
-            asdasd
             <Outlet />
           </div>
         </div>

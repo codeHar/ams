@@ -88,3 +88,35 @@ nav {
     transform: rotate(360deg);
   }
 }
+
+.sidebar ul li {
+  @apply p-3 rounded-md flex gap-3 items-center cursor-pointer hover:bg-gray-200 font-semibold;
+}
+
+.sidebar ul li:hover svg {
+  @apply fill-black;
+}
+
+.sidebar ul li svg {
+  @apply h-7 w-7 fill-gray-400;
+}
+
+table {
+  @apply min-w-full text-left text-sm font-light;
+}
+
+thead {
+  @apply border-b bg-neutral-100 font-medium;
+}
+
+th {
+  @apply px-6 py-4;
+}
+
+tbody tr {
+  @apply border-b;
+}
+
+tbody td {
+  @apply whitespace-nowrap px-6 py-4;
+}
