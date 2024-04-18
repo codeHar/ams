@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { artistIcon, userIcon } from "../assets/svg";
 
 type Route = {
@@ -22,13 +22,20 @@ const sidebarRoutes: Route[] = [
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log({ location });
 
   return (
     <div className="sidebar h-full w-1/5 shadow-md ">
       <ul className="h-full overflow-auto py-5 px-10 flex flex-col gap-3">
         {sidebarRoutes &&
           sidebarRoutes.map((route: Route, index: number) => (
-            <li key={"sidebar" + index} onClick={() => navigate(route.link)}>
+            <li
+              key={"sidebar" + index}
+              onClick={() => navigate(route.link)}
+              className={location.pathname === route.link ? "active" : ""}
+            >
               {route.icon}
               {route.title}
             </li>

@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import db from "../database";
-import { CREATE_USER, FIND_USER_WITH_EMAIL } from "../queries/user.queries";
+import {
+  CREATE_USER,
+  FIND_USER_WITH_EMAIL,
+  GET_ALL_USERS,
+} from "../queries/user.queries";
 import { customResponse } from "../utils/customResponse";
 import { RowDataPacket } from "mysql2/promise";
 
@@ -120,6 +124,37 @@ export const userLogin = async (req: Request, res: Response) => {
       .status(400)
       .send(
         customResponse({ message: "Error while logging User", status: false })
+      );
+  }
+};
+
+export const getAllUser = async (req: Request, res: Response) => {
+  try {
+    const [matches] = await db.query(GET_ALL_USERS);
+
+    if ((matches as RowDataPacket[]).length === 0) {
+      throw new Error("Currently there are no users");
+    }
+
+    const users = matches as RowDataPacket[];
+
+    console.log({ users });
+    res.status(200).send(
+      customResponse({
+        message: "Retrieved user list successfully",
+        payload: users,
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res
+      .status(400)
+      .send(
+        customResponse({ message: "Error while getting Users", status: false })
       );
   }
 };

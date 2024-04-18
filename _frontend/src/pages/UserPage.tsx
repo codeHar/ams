@@ -1,35 +1,26 @@
-import UserTable from "../components/CustomTable";
+import { toast } from "react-toastify";
+import UserTable from "../components/UserTable";
+import { useGetAllUsers } from "../services";
 
 const UserPage = () => {
-  const users = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      phone: "123-456-7890",
-      address: "123 Main St, City, Country",
-      dob: "1990-01-01",
-      created_at: "2024-04-17",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      phone: "987-654-3210",
-      address: "456 Elm St, Town, Country",
-      dob: "1985-05-10",
-      created_at: "2024-04-16",
-    },
-    {
-      id: 3,
-      name: "amit Smith",
-      email: "jane@example.com",
-      phone: "987-654-3210",
-      address: "456 Elm St, Town, Country",
-      dob: "1985-05-10",
-      created_at: "2024-04-16",
-    },
-  ];
+  const { data, isLoading, error, isError } = useGetAllUsers();
+
+  if (isLoading) {
+    return (
+      <div className="loading-container flex w-full h-full justify-center items-center">
+        <span className="loader"></span>
+      </div>
+    );
+  }
+
+  if (isError) {
+    toast(error?.message);
+    return null;
+  }
+
+  if (!data) {
+    return <p>No data!</p>;
+  }
 
   const tableTitles = [
     "Name",
@@ -46,7 +37,7 @@ const UserPage = () => {
       <div className="mb-5">
         <h2 className="text-xl font-semibold">Users</h2>
       </div>
-      <UserTable data={users} tableTitles={tableTitles} />
+      <UserTable data={data} tableTitles={tableTitles} />
     </div>
   );
 };

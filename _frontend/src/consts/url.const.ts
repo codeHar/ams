@@ -5,4 +5,7 @@ export const URLS = {
     LOGIN: `${baseUrl}/user/login`,
     REGISTER: `${baseUrl}/user/register`,
   },
+  USER: {
+    GET_ALL_USERS: `${baseUrl}/user`,
+  },
 };

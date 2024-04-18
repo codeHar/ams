@@ -20,3 +20,7 @@ export const CREATE_USER = `
 export const FIND_USER_WITH_EMAIL = `
     SELECT * FROM user WHERE email = ?
 `;
+
+export const GET_ALL_USERS = `
+    SELECT first_name, last_name, email, phone, dob, address, created_at FROM user
+`;

@@ -1,9 +1,11 @@
-type CustomTableType = {
-  data: any;
+import { IUser } from "../interfaces";
+
+type UserTableType = {
+  data: IUser[];
   tableTitles: string[];
 };
 
-const CustomTable = ({ data, tableTitles }: CustomTableType) => {
+const UserTable = ({ data, tableTitles }: UserTableType) => {
   return (
     <div>
       <table>
@@ -16,14 +18,16 @@ const CustomTable = ({ data, tableTitles }: CustomTableType) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
+          {data.map((item, id: number) => (
+            <tr key={"usert" + id}>
+              <td>
+                {item.first_name} {item.last_name}
+              </td>
               <td>{item.email}</td>
               <td>{item.phone}</td>
               <td>{item.address}</td>
-              <td>{item.dob}</td>
-              <td>{item.created_at}</td>
+              <td>{item.dob?.toString().split("T")[0]}</td>
+              <td>{item.created_at?.toString().split("T")[0]}</td>
             </tr>
           ))}
         </tbody>
@@ -32,4 +36,4 @@ const CustomTable = ({ data, tableTitles }: CustomTableType) => {
   );
 };
 
-export default CustomTable;
+export default UserTable;

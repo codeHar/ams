@@ -90,10 +90,22 @@ nav {
 }
 
 .sidebar ul li {
-  @apply p-3 rounded-md flex gap-3 items-center cursor-pointer hover:bg-gray-200 font-semibold;
+  @apply p-3 rounded-md flex gap-3 items-center cursor-pointer  font-semibold;
 }
 
-.sidebar ul li:hover svg {
+.sidebar ul li.active {
+  @apply bg-gray-200;
+}
+
+.sidebar ul li.active svg {
+  @apply fill-black;
+}
+
+.sidebar ul li:not(.active):hover {
+  @apply bg-gray-200;
+}
+
+.sidebar ul li:not(.active):hover svg {
   @apply fill-black;
 }
 
