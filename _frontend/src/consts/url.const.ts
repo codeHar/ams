@@ -8,4 +8,8 @@ export const URLS = {
   USER: {
     GET_ALL_USERS: `${baseUrl}/user`,
   },
+  ARTIST: {
+    GET_ALL_ARTISTS: `${baseUrl}/artist`,
+    CREATE_ARTIST: `${baseUrl}/artist`,
+  },
 };

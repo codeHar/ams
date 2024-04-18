@@ -2,7 +2,7 @@ import axios from "axios";
 import { URLS } from "../../consts";
 import { IUser } from "../../interfaces";
 
-export interface IResponse {
+interface IResponse {
   status: boolean;
   message: string;
   payload: IUser[];

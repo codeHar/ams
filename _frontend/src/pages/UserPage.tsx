@@ -1,16 +1,13 @@
 import { toast } from "react-toastify";
 import UserTable from "../components/UserTable";
 import { useGetAllUsers } from "../services";
+import LoadingComp from "../components/LoadingComp";
 
 const UserPage = () => {
   const { data, isLoading, error, isError } = useGetAllUsers();
 
   if (isLoading) {
-    return (
-      <div className="loading-container flex w-full h-full justify-center items-center">
-        <span className="loader"></span>
-      </div>
-    );
+    return <LoadingComp />;
   }
 
   if (isError) {
