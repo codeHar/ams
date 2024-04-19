@@ -18,3 +18,14 @@ export async function getAllArtists(): Promise<IArtist[]> {
     );
   }
 }
+
+export async function deleteArtist(id: string) {
+  try {
+    const res = await axios.delete<IResponse>(URLS.ARTIST.QUERY_BY_ID(id));
+    return res.data?.message;
+  } catch (error: IResponse | any) {
+    throw new Error(
+      error?.response?.data?.message || "Failed to delete artist"
+    );
+  }
+}

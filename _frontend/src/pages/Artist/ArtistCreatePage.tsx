@@ -7,7 +7,6 @@ import z from "zod";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { URLS } from "../../consts";
-import { IArtist } from "../../interfaces";
 
 const ArtistSchema = z.object({
   name: z.string().min(1, "First name is required"),
@@ -34,16 +33,20 @@ const ArtistCreatePage = () => {
   const { register, handleSubmit, reset } = methods;
 
   useEffect(() => {
+    //for update
     if (id) {
       const fetchArtist = async () => {
         try {
           setIsLoading(true);
-          const response = await axios.get(`${URLS.ARTIST.GET_ARTIST(id)}`);
+          const response = await axios.get(`${URLS.ARTIST.QUERY_BY_ID(id)}`);
           const artistData: artistDataType = response?.data?.payload;
-          console.log({ artistData });
-          reset({ ...artistData, dob: artistData?.dob.split("T")[0] });
+          reset({
+            ...artistData,
+            dob: artistData?.dob.split("T")[0],
+            first_release_year: artistData?.first_release_year.toString(),
+            no_of_albums_released: artistData?.no_of_albums_released.toString(),
+          });
         } catch (error) {
-          console.error("Error fetching artist data:", error);
           toast.error("Failed to fetch artist data");
         } finally {
           setIsLoading(false);
@@ -57,9 +60,13 @@ const ArtistCreatePage = () => {
   const submitData = async (data: artistDataType | FieldValues) => {
     try {
       console.log({ data });
-
       setIsLoading(true);
-      const response = await axios.post(URLS.ARTIST.CREATE_ARTIST, data);
+      let response;
+      if (id) {
+        response = await axios.put(URLS.ARTIST.QUERY_BY_ID(id), data);
+      } else {
+        response = await axios.post(URLS.ARTIST.CREATE_ARTIST, data);
+      }
 
       toast.success(response?.data?.message);
       navigate("/artist");
@@ -120,7 +127,7 @@ const ArtistCreatePage = () => {
               <button
                 className={`relative min-w-full sm:min-w-60 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none `}
               >
-                Create
+                {id ? "Update" : "Create"}
                 {isLoading && (
                   <span className="loader-container absolute right-0 mr-2 top-1/2 -translate-y-1/2">
                     <span className="loader"></span>

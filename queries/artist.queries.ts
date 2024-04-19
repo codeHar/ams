@@ -22,3 +22,13 @@ export const CREATE_ARTIST = `
 export const GET_ARTIST_BY_ID_QUERY = `
   SELECT * FROM artist WHERE id = ?;
 `;
+
+export const UPDATE_ARTIST_QUERY = `
+  UPDATE artist
+  SET name = ?, dob = ?, gender = ?, address = ?, first_release_year = ?, no_of_albums_released = ?
+  WHERE id = ?;
+`;
+
+export const DELETE_ARTIST_BY_ID_QUERY = `
+  DELETE FROM artist WHERE id = ?;
+`;

@@ -3,8 +3,10 @@ import { RowDataPacket } from "mysql2/promise";
 import db from "../database";
 import {
   CREATE_ARTIST,
+  DELETE_ARTIST_BY_ID_QUERY,
   GET_ALL_ARTISTS,
   GET_ARTIST_BY_ID_QUERY,
+  UPDATE_ARTIST_QUERY,
 } from "../queries/artist.queries";
 import { customResponse } from "../utils/customResponse";
 
@@ -119,6 +121,86 @@ export const getArtistById = async (req: Request, res: Response) => {
     res.status(400).send(
       customResponse({
         message: "Error while getting artist",
+        status: false,
+      })
+    );
+  }
+};
+
+export const updateArtist = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      name,
+      dob,
+      gender,
+      address,
+      first_release_year,
+      no_of_albums_released,
+    } = req.body;
+
+    if (
+      !name ||
+      !dob ||
+      !gender ||
+      !address ||
+      !first_release_year ||
+      !no_of_albums_released
+    ) {
+      throw new Error("All fields are required");
+    }
+
+    await db.query(UPDATE_ARTIST_QUERY, [
+      name,
+      dob,
+      gender,
+      address,
+      first_release_year,
+      no_of_albums_released,
+      id,
+    ]);
+
+    res.status(200).send(
+      customResponse({
+        message: "Artist updated successfully",
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while updating artist",
+        status: false,
+      })
+    );
+  }
+};
+
+export const deleteArtistById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    await db.query(DELETE_ARTIST_BY_ID_QUERY, [id]);
+
+    res.status(200).send(
+      customResponse({
+        message: `Successfully deleted artist`,
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while deleting artist",
         status: false,
       })
     );
