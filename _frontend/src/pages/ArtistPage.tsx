@@ -32,7 +32,7 @@ const ArtistPage = () => {
   return (
     <div>
       <div className="mb-5">
-        <h2 className="text-xl font-semibold">Users</h2>
+        <h2 className="text-xl font-semibold">Artists</h2>
       </div>
       <ArtistTable data={data} tableTitles={tableTitles} />
     </div>

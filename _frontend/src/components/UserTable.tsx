@@ -1,4 +1,5 @@
 import { IUser } from "../interfaces";
+import ActionButtons from "./ActionButtons";
 
 type UserTableType = {
   data: IUser[];
@@ -28,6 +29,9 @@ const UserTable = ({ data, tableTitles }: UserTableType) => {
               <td>{item.address}</td>
               <td>{item.dob?.toString().split("T")[0]}</td>
               <td>{item.created_at?.toString().split("T")[0]}</td>
+              <td>
+                <ActionButtons />
+              </td>
             </tr>
           ))}
         </tbody>

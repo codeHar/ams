@@ -11,7 +11,7 @@ const sidebarRoutes: Route[] = [
   {
     title: "User",
     icon: userIcon,
-    link: "/user",
+    link: "/",
   },
   {
     title: "Artist",

@@ -1,4 +1,5 @@
 import { IArtist } from "../interfaces";
+import ActionButtons from "./ActionButtons";
 
 type ArtistTableType = {
   data: IArtist[];
@@ -19,13 +20,16 @@ const ArtistTable = ({ data, tableTitles }: ArtistTableType) => {
         </thead>
         <tbody>
           {data.map((item, id: number) => (
-            <tr key={"usert" + id}>
+            <tr key={"artistt" + id}>
               <td>{item.name}</td>
               <td>{item.address}</td>
               <td>{item.dob?.toString().split("T")[0]}</td>
               <td>{item.first_release_year}</td>
               <td>{item.no_of_albums_released}</td>
               <td>{item.created_at?.toString().split("T")[0]}</td>
+              <td>
+                <ActionButtons />
+              </td>
             </tr>
           ))}
         </tbody>

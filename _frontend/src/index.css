@@ -114,7 +114,7 @@ nav {
 }
 
 table {
-  @apply min-w-full text-left text-sm font-light;
+  @apply min-w-full text-left text-sm;
 }
 
 thead {
@@ -131,4 +131,8 @@ tbody tr {
 
 tbody td {
   @apply whitespace-nowrap px-6 py-4;
+}
+
+.action-buttons svg {
+  @apply w-6 h-6 cursor-pointer;
 }
