@@ -3,12 +3,19 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
-import ArtistPage from "./pages/ArtistPage";
+import ArtistPage from "./pages/Artist/ArtistPage";
+import ArtistCreatePage from "./pages/Artist/ArtistCreatePage";
+import ArtistListPage from "./pages/Artist/ArtistListPage";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -17,6 +24,16 @@ const router = createBrowserRouter([
       {
         path: "/artist",
         element: <ArtistPage />,
+        children: [
+          {
+            index: true,
+            element: <ArtistListPage />,
+          },
+          {
+            path: "create",
+            element: <ArtistCreatePage />,
+          },
+        ],
       },
     ],
   },

@@ -5,8 +5,9 @@ import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { URLS } from "../consts";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import AuthContext from "../contexts/AuthProvider";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -17,6 +18,7 @@ type loginDataType = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { setAuthData } = useContext(AuthContext);
   const navigate = useNavigate();
   const methods = useForm({
     resolver: zodResolver(loginSchema),
@@ -28,7 +30,13 @@ const Login = () => {
     try {
       setIsLoading(true);
       const response = await axios.post(URLS.AUTH.LOGIN, data);
-      navigate("/");
+      const resData = await response.data;
+
+      if (resData?.status === true) {
+        console.log("resd", resData);
+        setAuthData(resData?.payload);
+        navigate("/");
+      }
     } catch (err) {
       if (err instanceof AxiosError) {
         toast(err?.response?.data?.message);

@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
-import ArtistTable from "../components/ArtistTable";
-import LoadingComp from "../components/LoadingComp";
-import { useGetAllArtists } from "../services";
+import ArtistTable from "../../components/ArtistTable";
+import LoadingComp from "../../components/LoadingComp";
+import { useGetAllArtists } from "../../services";
+import { Link } from "react-router-dom";
 
-const ArtistPage = () => {
+const ArtistListPage = () => {
   const { data, isLoading, error, isError } = useGetAllArtists();
 
   if (isLoading) {
@@ -30,13 +31,19 @@ const ArtistPage = () => {
   ];
 
   return (
-    <div>
-      <div className="mb-5">
+    <>
+      <div className="mb-5 flex justify-between items-center gap-3">
         <h2 className="text-xl font-semibold">Artists</h2>
+        <Link
+          to="create"
+          className="py-2 px-4 rounded-md bg-primary text-white"
+        >
+          Add Artist
+        </Link>
       </div>
       <ArtistTable data={data} tableTitles={tableTitles} />
-    </div>
+    </>
   );
 };
 
-export default ArtistPage;
+export default ArtistListPage;
