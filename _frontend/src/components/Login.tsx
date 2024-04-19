@@ -35,14 +35,15 @@ const Login = () => {
       if (resData?.status === true) {
         console.log("resd", resData);
         setAuthData(resData?.payload);
+        toast.success("Successfully logged in");
         navigate("/");
       }
     } catch (err) {
       if (err instanceof AxiosError) {
-        toast(err?.response?.data?.message);
+        toast.error(err?.response?.data?.message);
       } else {
         console.log("error :", err);
-        toast("Something went wrong");
+        toast.error("Something went wrong");
       }
     } finally {
       setIsLoading(false);

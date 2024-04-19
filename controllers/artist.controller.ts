@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { RowDataPacket } from "mysql2/promise";
 import db from "../database";
-import { CREATE_ARTIST, GET_ALL_ARTISTS } from "../queries/artist.queries";
+import {
+  CREATE_ARTIST,
+  GET_ALL_ARTISTS,
+  GET_ARTIST_BY_ID_QUERY,
+} from "../queries/artist.queries";
 import { customResponse } from "../utils/customResponse";
 
 export const getAllArtists = async (req: Request, res: Response) => {
@@ -81,6 +85,40 @@ export const createArtist = async (req: Request, res: Response) => {
     res.status(400).send(
       customResponse({
         message: "Error while creating artist",
+        status: false,
+      })
+    );
+  }
+};
+
+export const getArtistById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const [matches] = await db.query(GET_ARTIST_BY_ID_QUERY, [id]);
+
+    if ((matches as RowDataPacket[]).length === 0) {
+      throw new Error("No artist found with this id");
+    }
+
+    const artist = matches as RowDataPacket[][0];
+
+    console.log({ artist });
+    res.status(200).send(
+      customResponse({
+        message: "Successfully retrieved artist data",
+        payload: artist[0],
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while getting artist",
         status: false,
       })
     );

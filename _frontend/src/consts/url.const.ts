@@ -11,5 +11,6 @@ export const URLS = {
   ARTIST: {
     GET_ALL_ARTISTS: `${baseUrl}/artist`,
     CREATE_ARTIST: `${baseUrl}/artist`,
+    GET_ARTIST: (id: string) => `${baseUrl}/artist/${id}`,
   },
 };

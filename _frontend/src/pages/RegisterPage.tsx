@@ -40,14 +40,14 @@ const RegisterPage = () => {
       setIsLoading(true);
       const response = await axios.post(URLS.AUTH.REGISTER, data);
 
-      toast(response?.data?.message);
+      toast.success(response?.data?.message);
       navigate("/login");
     } catch (err) {
       if (err instanceof AxiosError) {
-        toast(err?.response?.data?.message);
+        toast.error(err?.response?.data?.message);
       } else {
         console.log("error :", err);
-        toast("Something went wrong");
+        toast.error("Something went wrong");
       }
     } finally {
       setIsLoading(false);

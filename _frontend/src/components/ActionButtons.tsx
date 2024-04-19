@@ -1,10 +1,15 @@
 import { deleteIcon, editIcon } from "../assets/svg";
 
-const ActionButtons = () => {
+type ActionType = {
+  onEdit: () => void;
+  onDelete: () => void;
+};
+
+const ActionButtons = ({ onEdit, onDelete }: ActionType) => {
   return (
     <div className="action-buttons flex gap-3">
-      <span>{editIcon}</span>
-      <span>{deleteIcon}</span>
+      <span onClick={onEdit}>{editIcon}</span>
+      <span onClick={onDelete}>{deleteIcon}</span>
     </div>
   );
 };

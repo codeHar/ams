@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { IArtist } from "../interfaces";
 import ActionButtons from "./ActionButtons";
 
@@ -7,6 +8,14 @@ type ArtistTableType = {
 };
 
 const ArtistTable = ({ data, tableTitles }: ArtistTableType) => {
+  const navigate = useNavigate();
+
+  const onEdit = (id: number) => {
+    navigate(`create/${id}`);
+  };
+
+  const onDelete = () => {};
+
   return (
     <div>
       <table>
@@ -28,7 +37,10 @@ const ArtistTable = ({ data, tableTitles }: ArtistTableType) => {
               <td>{item.no_of_albums_released}</td>
               <td>{item.created_at?.toString().split("T")[0]}</td>
               <td>
-                <ActionButtons />
+                <ActionButtons
+                  onEdit={() => onEdit(item?.id)}
+                  onDelete={onDelete}
+                />
               </td>
             </tr>
           ))}

@@ -140,3 +140,7 @@ tbody td {
 .nav-profile:hover .nav-actions {
   @apply block;
 }
+
+.page-title {
+  @apply text-xl font-semibold;
+}

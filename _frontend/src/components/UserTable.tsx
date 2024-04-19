@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces";
 import ActionButtons from "./ActionButtons";
 
@@ -7,6 +8,14 @@ type UserTableType = {
 };
 
 const UserTable = ({ data, tableTitles }: UserTableType) => {
+  const navigate = useNavigate();
+
+  const onEdit = (id: number) => {
+    navigate(`create/${id}`);
+  };
+
+  const onDelete = () => {};
+
   return (
     <div>
       <table>
@@ -30,7 +39,10 @@ const UserTable = ({ data, tableTitles }: UserTableType) => {
               <td>{item.dob?.toString().split("T")[0]}</td>
               <td>{item.created_at?.toString().split("T")[0]}</td>
               <td>
-                <ActionButtons />
+                <ActionButtons
+                  onEdit={() => onEdit(item?.id)}
+                  onDelete={onDelete}
+                />
               </td>
             </tr>
           ))}

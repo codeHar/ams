@@ -1,4 +1,5 @@
 export interface IArtist {
+  id: number;
   name: string;
   dob: Date;
   address: string;

@@ -11,10 +11,14 @@ export const CREATE_ARTIST_TABLE = `CREATE TABLE IF NOT EXISTS artist (
 );`;
 
 export const GET_ALL_ARTISTS = `
-    SELECT name, dob, address, first_release_year, no_of_albums_released, created_at FROM artist
+    SELECT id,name, dob, address, first_release_year, no_of_albums_released, created_at FROM artist
 `;
 
 export const CREATE_ARTIST = `
   INSERT INTO artist (name, dob, gender, address, first_release_year, no_of_albums_released)
   VALUES (?, ?, ?, ?, ?, ?)
+`;
+
+export const GET_ARTIST_BY_ID_QUERY = `
+  SELECT * FROM artist WHERE id = ?;
 `;

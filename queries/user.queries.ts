@@ -22,5 +22,5 @@ export const FIND_USER_WITH_EMAIL = `
 `;
 
 export const GET_ALL_USERS = `
-    SELECT first_name, last_name, email, phone, dob, address, created_at FROM user
+    SELECT id, first_name, last_name, email, phone, dob, address, created_at FROM user
 `;
