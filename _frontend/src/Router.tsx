@@ -10,6 +10,8 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import UserListPage from "./pages/User/UserListPage";
 import UserCreatePage from "./pages/User/UserCreatePage";
 import InfoPage from "./pages/InfoPage";
+import MusicPage from "./pages/Music/MusicPage";
+import MusicListPage from "./pages/Music/MusicListPage";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,16 @@ const router = createBrowserRouter([
           {
             path: "create/:id?",
             element: <ArtistCreatePage />,
+          },
+          {
+            path: ":id/music",
+            element: <MusicPage />,
+            children: [
+              {
+                index: true,
+                element: <MusicListPage />,
+              },
+            ],
           },
         ],
       },

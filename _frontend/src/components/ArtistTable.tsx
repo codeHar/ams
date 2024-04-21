@@ -61,6 +61,8 @@ const ArtistTable = ({ data, tableTitles }: ArtistTableType) => {
               <ActionButtons
                 onEdit={() => onEdit(item?.id)}
                 onDelete={() => onDelete(item?.id)}
+                canViewMusic={true}
+                onViewMusic={() => navigate(`${item?.id}/music`)}
               />
             </td>
           </tr>
