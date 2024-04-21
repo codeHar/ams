@@ -1,14 +1,21 @@
 import { useContext } from "react";
 import userImg from "../assets/user.png";
 import AuthContext from "../contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const { getUserName, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <nav className="p-5 shadow-md">
       <div className="container flex gap-3 justify-between items-center">
-        <h3 className="text-4xl font-bold">AMS</h3>
+        <h3
+          className="text-4xl font-bold cursor-pointer"
+          onClick={() => navigate("")}
+        >
+          AMS
+        </h3>
 
         <div className="nav-profile flex gap-3 items-center cursor-pointer relative">
           <figure>

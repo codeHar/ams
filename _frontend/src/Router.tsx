@@ -2,11 +2,14 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import UserPage from "./pages/UserPage";
+import UserPage from "./pages/User/UserPage";
 import ArtistPage from "./pages/Artist/ArtistPage";
 import ArtistCreatePage from "./pages/Artist/ArtistCreatePage";
 import ArtistListPage from "./pages/Artist/ArtistListPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import UserListPage from "./pages/User/UserListPage";
+import UserCreatePage from "./pages/User/UserCreatePage";
+import InfoPage from "./pages/InfoPage";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +22,21 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <InfoPage />,
+      },
+      {
+        path: "/user",
         element: <UserPage />,
+        children: [
+          {
+            index: true,
+            element: <UserListPage />,
+          },
+          {
+            path: "create/:id?",
+            element: <UserCreatePage />,
+          },
+        ],
       },
       {
         path: "/artist",

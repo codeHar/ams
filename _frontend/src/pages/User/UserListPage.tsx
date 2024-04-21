@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
-import UserTable from "../components/UserTable";
-import { useGetAllUsers } from "../services";
-import LoadingComp from "../components/LoadingComp";
+import UserTable from "../../components/UserTable";
+import { useGetAllUsers } from "../../services";
+import LoadingComp from "../../components/LoadingComp";
 
-const UserPage = () => {
+const UserListPage = () => {
   const { data, isLoading, error, isError } = useGetAllUsers();
 
   if (isLoading) {
@@ -39,4 +39,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default UserListPage;
