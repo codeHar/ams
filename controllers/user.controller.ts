@@ -4,8 +4,12 @@ import jwt from "jsonwebtoken";
 import db from "../database";
 import {
   CREATE_USER,
+  CREATE_USER_RECORD,
+  DELETE_USER_BY_ID_QUERY,
   FIND_USER_WITH_EMAIL,
   GET_ALL_USERS,
+  GET_USER_BY_ID_QUERY,
+  UPDATE_USER_QUERY,
 } from "../queries/user.queries";
 import { customResponse } from "../utils/customResponse";
 import { RowDataPacket } from "mysql2/promise";
@@ -156,5 +160,160 @@ export const getAllUser = async (req: Request, res: Response) => {
       .send(
         customResponse({ message: "Error while getting Users", status: false })
       );
+  }
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const [matches] = await db.query(GET_USER_BY_ID_QUERY, [id]);
+
+    if ((matches as RowDataPacket[]).length === 0) {
+      throw new Error("No user found with this id");
+    }
+
+    const user = matches as RowDataPacket[][0];
+
+    console.log({ user });
+    res.status(200).send(
+      customResponse({
+        message: "Successfully retrieved user data",
+        payload: { ...user[0] },
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while getting user",
+        status: false,
+      })
+    );
+  }
+};
+
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const { first_name, last_name, email, phone, dob, gender, address } =
+      req.body;
+
+    if (
+      !first_name ||
+      !last_name ||
+      !email ||
+      !phone ||
+      !dob ||
+      !gender ||
+      !address
+    ) {
+      throw new Error("All fields are required");
+    }
+
+    await db.query(CREATE_USER_RECORD, [
+      first_name,
+      last_name,
+      email,
+      phone,
+      dob,
+      gender,
+      address,
+    ]);
+
+    res.status(200).send(
+      customResponse({
+        message: "User created successfully",
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res
+      .status(400)
+      .send(
+        customResponse({ message: "Error while creating User", status: false })
+      );
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { first_name, last_name, email, phone, dob, gender, address } =
+      req.body;
+
+    const { id } = req.params;
+
+    if (
+      !first_name ||
+      !last_name ||
+      !email ||
+      !phone ||
+      !dob ||
+      !gender ||
+      !address
+    ) {
+      throw new Error("All fields are required");
+    }
+
+    await db.query(UPDATE_USER_QUERY, [
+      first_name,
+      last_name,
+      email,
+      phone,
+      dob,
+      gender,
+      address,
+      id,
+    ]);
+
+    res.status(200).send(
+      customResponse({
+        message: "User updated successfully",
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res
+      .status(400)
+      .send(
+        customResponse({ message: "Error while updating User", status: false })
+      );
+  }
+};
+
+export const deleteUserById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    await db.query(DELETE_USER_BY_ID_QUERY, [id]);
+
+    res.status(200).send(
+      customResponse({
+        message: `Successfully deleted user`,
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while deleting user",
+        status: false,
+      })
+    );
   }
 };

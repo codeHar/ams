@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import UserTable from "../../components/UserTable";
 import { useGetAllUsers } from "../../services";
 import LoadingComp from "../../components/LoadingComp";
+import { Link } from "react-router-dom";
 
 const UserListPage = () => {
   const { data, isLoading, error, isError } = useGetAllUsers();
@@ -30,11 +31,19 @@ const UserListPage = () => {
   ];
 
   return (
-    <div>
-      <div className="mb-5">
+    <div className="flex flex-col max-h-full">
+      <div className="mb-5 flex justify-between items-center gap-3">
         <h2 className="text-xl font-semibold">Users</h2>
+        <Link
+          to="create"
+          className="py-2 px-4 rounded-md bg-primary text-white"
+        >
+          Add User
+        </Link>
       </div>
-      <UserTable data={data} tableTitles={tableTitles} />
+      <div className="table-wrapper flex-grow overflow-auto">
+        <UserTable data={data} tableTitles={tableTitles} />
+      </div>
     </div>
   );
 };

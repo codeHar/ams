@@ -31,7 +31,7 @@ const ArtistListPage = () => {
   ];
 
   return (
-    <>
+    <div className="flex flex-col max-h-full">
       <div className="mb-5 flex justify-between items-center gap-3">
         <h2 className="text-xl font-semibold">Artists</h2>
         <Link
@@ -41,8 +41,10 @@ const ArtistListPage = () => {
           Add Artist
         </Link>
       </div>
-      <ArtistTable data={data} tableTitles={tableTitles} />
-    </>
+      <div className="table-wrapper flex-grow overflow-auto">
+        <ArtistTable data={data} tableTitles={tableTitles} />
+      </div>
+    </div>
   );
 };
 

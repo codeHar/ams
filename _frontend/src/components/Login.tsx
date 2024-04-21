@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import AuthContext from "../contexts/AuthProvider";
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().min(1, "Email is required").email(),
   password: z.string().min(8, "Passoword must be 8 characters long"),
 });
 
@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl  ring-2 md:max-w-xl">
-      <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
+      <h1 className="text-3xl font-semibold text-center text-primary uppercase">
         Sign in
       </h1>
       <FormProvider {...methods}>
@@ -63,7 +63,7 @@ const Login = () => {
 
           <div className="mt-6">
             <button
-              className={`relative w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600`}
+              className={`relative w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-primary rounded-md hover:text-accent focus:outline-none `}
             >
               Login
               {isLoading && (
@@ -79,7 +79,7 @@ const Login = () => {
         Don't have an account?
         <Link
           to="/register"
-          className="font-medium text-purple-600 hover:underline"
+          className="font-medium text-purple-600 hover:underline hover:text-accent"
         >
           Sign up
         </Link>

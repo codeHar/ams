@@ -57,7 +57,7 @@ const RegisterPage = () => {
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden py-10 px-5">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl  ring-2 md:max-w-2xl">
-        <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
+        <h1 className="text-3xl font-semibold text-center  uppercase">
           Sign Up
         </h1>
         <FormProvider {...methods}>
@@ -100,7 +100,7 @@ const RegisterPage = () => {
             </div>
             <div className="mt-6 flex justify-end">
               <button
-                className={`relative min-w-full sm:min-w-60 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600`}
+                className={`relative min-w-full sm:min-w-60 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none hover:text-accent`}
               >
                 Sign Up
                 {isLoading && (
@@ -117,7 +117,7 @@ const RegisterPage = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="font-medium text-purple-600 hover:underline"
+            className="font-medium text-purple-600 hover:underline hover:text-accent"
           >
             Sign In
           </Link>

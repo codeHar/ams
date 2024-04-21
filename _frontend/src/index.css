@@ -144,3 +144,25 @@ tbody td {
 .page-title {
   @apply text-xl font-bold;
 }
+
+.table-wrapper::-webkit-scrollbar {
+  width: 12px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+}
+
+.table-wrapper:hover::-webkit-scrollbar-thumb {
+  background-color: #777;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-corner {
+  background: transparent;
+}

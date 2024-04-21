@@ -7,6 +7,8 @@ export const URLS = {
   },
   USER: {
     GET_ALL_USERS: `${baseUrl}/user`,
+    CREATE_USER: `${baseUrl}/user`,
+    QUERY_BY_ID: (id: string) => `${baseUrl}/user/${id}`,
   },
   ARTIST: {
     GET_ALL_ARTISTS: `${baseUrl}/artist`,

@@ -16,3 +16,12 @@ export async function getAllUsers(): Promise<IUser[]> {
     throw new Error(error?.response?.data?.message || "Failed to fetch users");
   }
 }
+
+export async function deleteUser(id: string) {
+  try {
+    const res = await axios.delete<IResponse>(URLS.USER.QUERY_BY_ID(id));
+    return res.data?.message;
+  } catch (error: IResponse | any) {
+    throw new Error(error?.response?.data?.message || "Failed to delete user");
+  }
+}
