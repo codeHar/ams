@@ -8,3 +8,22 @@ export const CREATE_MUSIC_TABLE = `CREATE TABLE IF NOT EXISTS music (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (artist_id) REFERENCES artist(id)
 );`;
+
+export const INSERT_MUSIC = `
+    INSERT INTO music (artist_id, title, album_name, genre)
+    VALUES (?, ?, ?, ?);
+`;
+
+export const SELECT_MUSIC_BY_ARTIST = `
+  SELECT * FROM music WHERE artist_id = ?;
+`;
+
+export const UPDATE_MUSIC_QUERY = `
+  UPDATE music
+  SET title = ?, album_name = ?, genre = ?
+  WHERE id = ?;
+`;
+
+export const DELETE_MUSIC_BY_ID_QUERY = `
+  DELETE FROM music WHERE id = ?;
+`;

@@ -6,6 +6,7 @@ import {
   DELETE_ARTIST_BY_ID_QUERY,
   GET_ALL_ARTISTS,
   GET_ARTIST_BY_ID_QUERY,
+  SELECT_MUSIC_BY_ARTIST,
   UPDATE_ARTIST_QUERY,
 } from "../queries/artist.queries";
 import { customResponse } from "../utils/customResponse";
@@ -201,6 +202,36 @@ export const deleteArtistById = async (req: Request, res: Response) => {
     res.status(400).send(
       customResponse({
         message: "Error while deleting artist",
+        status: false,
+      })
+    );
+  }
+};
+
+export const getMusicByArtist = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const [matches] = await db.query(SELECT_MUSIC_BY_ARTIST, [id]);
+
+    const music = matches as RowDataPacket[][0];
+
+    console.log({ music });
+    res.status(200).send(
+      customResponse({
+        message: "Successfully retrieved music data",
+        payload: music,
+      })
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while getting music",
         status: false,
       })
     );

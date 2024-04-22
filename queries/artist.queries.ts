@@ -32,3 +32,7 @@ export const UPDATE_ARTIST_QUERY = `
 export const DELETE_ARTIST_BY_ID_QUERY = `
   DELETE FROM artist WHERE id = ?;
 `;
+
+export const SELECT_MUSIC_BY_ARTIST = `
+  SELECT id, title, album_name, genre, created_at FROM music WHERE artist_id = ?;
+`;

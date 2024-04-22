@@ -12,6 +12,7 @@ import UserCreatePage from "./pages/User/UserCreatePage";
 import InfoPage from "./pages/InfoPage";
 import MusicPage from "./pages/Music/MusicPage";
 import MusicListPage from "./pages/Music/MusicListPage";
+import MusicCreatePage from "./pages/Music/MusicCreatePage";
 
 const router = createBrowserRouter([
   {
@@ -53,12 +54,16 @@ const router = createBrowserRouter([
             element: <ArtistCreatePage />,
           },
           {
-            path: ":id/music",
+            path: ":artistId/music",
             element: <MusicPage />,
             children: [
               {
                 index: true,
                 element: <MusicListPage />,
+              },
+              {
+                path: "create/:musicId?",
+                element: <MusicCreatePage />,
               },
             ],
           },

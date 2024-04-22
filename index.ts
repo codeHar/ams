@@ -4,6 +4,7 @@ import "dotenv/config";
 import "./database";
 import userRoute from "./routes/user.route";
 import artistRoute from "./routes/artist.route";
+import musicRoute from "./routes/music.route";
 
 const app = express();
 const PORT = process.env.PORT || 3306;
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 //routes
 app.use("/api/user", userRoute);
 app.use("/api/artist", artistRoute);
+app.use("/api/music", musicRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running at localhost:${PORT}`);

@@ -5,7 +5,7 @@ type ActionType = {
   onEdit: () => void;
   onDelete: () => void;
   canViewMusic?: boolean;
-  onViewMusic: () => void;
+  onViewMusic?: () => void;
 };
 
 const ActionButtons = ({
