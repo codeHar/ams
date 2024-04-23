@@ -7,25 +7,31 @@ import {
   GET_ALL_ARTISTS,
   GET_ARTIST_BY_ID_QUERY,
   SELECT_MUSIC_BY_ARTIST,
+  SELECT_TOTAL_ARTISTS,
   UPDATE_ARTIST_QUERY,
 } from "../queries/artist.queries";
 import { customResponse } from "../utils/customResponse";
 
 export const getAllArtists = async (req: Request, res: Response) => {
   try {
-    const [matches] = await db.query(GET_ALL_ARTISTS);
+    const { page = 1 } = req.query;
+    const pageSize = 2;
+    const offset = (parseInt(page as string) - 1) * pageSize;
 
-    if ((matches as RowDataPacket[]).length === 0) {
-      throw new Error("Currently there are no artists");
-    }
+    const [matches] = await db.query(GET_ALL_ARTISTS, [offset, pageSize]);
 
-    const users = matches as RowDataPacket[];
+    const artists = matches as RowDataPacket[];
 
-    console.log({ users });
+    // Query to get total count of artists
+    const [countRows] = await db.query(SELECT_TOTAL_ARTISTS);
+    const total = countRows as RowDataPacket[];
+    const totalCount = total[0].totalCount;
+
+    console.log({ artists });
     res.status(200).send(
       customResponse({
         message: "Retrieved artist list successfully",
-        payload: users,
+        payload: { artists, totalCount },
       })
     );
   } catch (err) {

@@ -11,7 +11,7 @@ export const CREATE_ARTIST_TABLE = `CREATE TABLE IF NOT EXISTS artist (
 );`;
 
 export const GET_ALL_ARTISTS = `
-    SELECT id,name, dob, address, first_release_year, no_of_albums_released, created_at FROM artist
+    SELECT id,name, dob, address, first_release_year, no_of_albums_released, created_at FROM artist LIMIT ?, ?
 `;
 
 export const CREATE_ARTIST = `
@@ -35,4 +35,8 @@ export const DELETE_ARTIST_BY_ID_QUERY = `
 
 export const SELECT_MUSIC_BY_ARTIST = `
   SELECT id, title, album_name, genre, created_at FROM music WHERE artist_id = ?;
+`;
+
+export const SELECT_TOTAL_ARTISTS = `
+  SELECT COUNT(*) AS totalCount FROM artist;
 `;

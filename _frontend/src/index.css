@@ -110,7 +110,7 @@ nav {
 }
 
 .sidebar ul li svg {
-  @apply h-7 w-7 fill-gray-400;
+  @apply h-7 w-7 min-h-7 min-w-7 fill-gray-400;
 }
 
 table {
@@ -134,7 +134,7 @@ tbody td {
 }
 
 .action-buttons svg {
-  @apply w-6 h-6 cursor-pointer;
+  @apply w-6 h-6 min-w-7 min-h-7 cursor-pointer;
 }
 
 .nav-profile:hover .nav-actions {
@@ -226,4 +226,8 @@ tbody td {
   content: "/";
   margin: 0 5px;
   color: #777;
+}
+
+.pagination-container svg {
+  @apply h-7 w-7 min-h-7 max-h-7 cursor-pointer;
 }

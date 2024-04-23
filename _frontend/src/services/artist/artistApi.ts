@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllArtists } from "./artistApiSlice";
 
-export function useGetAllArtists() {
+export function useGetAllArtists(pageNo: number) {
   return useQuery({
-    queryKey: ["allArtists"],
-    queryFn: () => getAllArtists(),
+    queryKey: ["allArtists", pageNo],
+    queryFn: () => getAllArtists(pageNo),
   });
 }
