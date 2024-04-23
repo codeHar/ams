@@ -1,4 +1,17 @@
+import { useContext, useEffect } from "react";
+import { BreadcrumbContext } from "../contexts/BreadCrumbProvider";
+
 const InfoPage = () => {
+  const { setBreadCrumbItem } = useContext(BreadcrumbContext);
+
+  useEffect(() => {
+    setBreadCrumbItem([
+      {
+        text: "Home",
+        link: "/",
+      },
+    ]);
+  }, [setBreadCrumbItem]);
   return (
     <div>
       <p className="mb-3">Welcome to</p>

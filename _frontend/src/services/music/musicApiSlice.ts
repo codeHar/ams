@@ -5,12 +5,22 @@ import { IMusic } from "../../interfaces";
 interface IResponse {
   status: boolean;
   message: string;
-  payload: IMusic[];
+  payload: IGetMusic;
 }
 
-export async function getMusicOfArtist(artistId: string): Promise<IMusic[]> {
+interface IGetMusic {
+  music: IMusic[];
+  totalCount: number;
+}
+
+export async function getMusicOfArtist(
+  artistId: string,
+  pageNo: number
+): Promise<IGetMusic> {
   try {
-    const res = await axios.get<IResponse>(URLS.ARTIST.GET_MUSIC(artistId));
+    const res = await axios.get<IResponse>(
+      URLS.ARTIST.GET_MUSIC(artistId) + `?page=${pageNo}`
+    );
     return res.data?.payload;
   } catch (error: IResponse | any) {
     throw new Error(error?.response?.data?.message || "Failed to fetch music");

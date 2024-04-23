@@ -5,12 +5,19 @@ import { IUser } from "../../interfaces";
 interface IResponse {
   status: boolean;
   message: string;
-  payload: IUser[];
+  payload: IGetUser;
 }
 
-export async function getAllUsers(): Promise<IUser[]> {
+interface IGetUser {
+  users: IUser[];
+  totalCount: number;
+}
+
+export async function getAllUsers(pageNo: number = 1): Promise<IGetUser> {
   try {
-    const res = await axios.get<IResponse>(URLS.USER.GET_ALL_USERS);
+    const res = await axios.get<IResponse>(
+      URLS.USER.GET_ALL_USERS + `?page=${pageNo}`
+    );
     return res.data?.payload;
   } catch (error: IResponse | any) {
     throw new Error(error?.response?.data?.message || "Failed to fetch users");

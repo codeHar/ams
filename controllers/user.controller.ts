@@ -9,6 +9,7 @@ import {
   FIND_USER_WITH_EMAIL,
   GET_ALL_USERS,
   GET_USER_BY_ID_QUERY,
+  SELECT_TOTAL_USERS,
   UPDATE_USER_QUERY,
 } from "../queries/user.queries";
 import { customResponse } from "../utils/customResponse";
@@ -134,7 +135,10 @@ export const userLogin = async (req: Request, res: Response) => {
 
 export const getAllUser = async (req: Request, res: Response) => {
   try {
-    const [matches] = await db.query(GET_ALL_USERS);
+    const { page = 1 } = req.query;
+    const pageSize = 8;
+    const offset = (parseInt(page as string) - 1) * pageSize;
+    const [matches] = await db.query(GET_ALL_USERS, [offset, pageSize]);
 
     if ((matches as RowDataPacket[]).length === 0) {
       throw new Error("Currently there are no users");
@@ -142,11 +146,15 @@ export const getAllUser = async (req: Request, res: Response) => {
 
     const users = matches as RowDataPacket[];
 
+    const [countRows] = await db.query(SELECT_TOTAL_USERS);
+    const total = countRows as RowDataPacket[];
+    const totalCount = total[0].totalCount;
+
     console.log({ users });
     res.status(200).send(
       customResponse({
         message: "Retrieved user list successfully",
-        payload: users,
+        payload: { users, totalCount },
       })
     );
   } catch (err) {

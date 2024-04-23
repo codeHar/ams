@@ -34,7 +34,7 @@ export const DELETE_ARTIST_BY_ID_QUERY = `
 `;
 
 export const SELECT_MUSIC_BY_ARTIST = `
-  SELECT id, title, album_name, genre, created_at FROM music WHERE artist_id = ?;
+  SELECT id, title, album_name, genre, created_at FROM music WHERE artist_id = ? LIMIT ?, ?;
 `;
 
 export const SELECT_TOTAL_ARTISTS = `

@@ -11,13 +11,16 @@ import Input from "../components/Input";
 const registerSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
   last_name: z.string().min(1, "Last name is required"),
-  email: z.string().email(),
-  password: z.string().min(8, "Passoword must be 8 characters long"),
+  email: z.string().min(1, "Email is required").email(),
+  password: z.string().min(8, "Password must be 8 characters long"),
   phone: z
     .string()
     .min(1, "Phone no is required")
     .regex(/^\d{10}$/, "Invalid phone no"),
-  dob: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date"),
+  dob: z
+    .string()
+    .min(1, "DOB is required")
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date"),
   gender: z.enum(["m", "f", "o"]),
   address: z.string().min(1, "Address is required"),
 });

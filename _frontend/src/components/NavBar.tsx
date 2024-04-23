@@ -8,7 +8,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="p-5 shadow-md">
+    <nav className="navbar p-5 shadow-md">
       <div className="container flex gap-3 justify-between items-center">
         <h3
           className="text-4xl font-bold cursor-pointer"

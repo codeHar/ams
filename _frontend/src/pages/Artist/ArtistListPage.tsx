@@ -4,11 +4,22 @@ import LoadingComp from "../../components/LoadingComp";
 import { useGetAllArtists } from "../../services";
 import { Link } from "react-router-dom";
 import Pagination from "../../components/Pagination";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
 
 const ArtistListPage = () => {
   const [pageNo, setPageNo] = useState(1);
   const { data, isLoading, error, isError } = useGetAllArtists(pageNo);
+  const { setBreadCrumbItem } = useContext(BreadcrumbContext);
+
+  useEffect(() => {
+    setBreadCrumbItem([
+      {
+        text: "Artist",
+        link: "/artist",
+      },
+    ]);
+  }, [setBreadCrumbItem]);
 
   if (isLoading) {
     return <LoadingComp />;

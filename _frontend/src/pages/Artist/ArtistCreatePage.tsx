@@ -1,22 +1,32 @@
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "../../components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import z from "zod";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { URLS } from "../../consts";
+import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
 
 const ArtistSchema = z.object({
   name: z.string().min(1, "First name is required"),
-  dob: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date"),
+  dob: z
+    .string()
+    .min(1, "Date is required")
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date"),
   gender: z.enum(["m", "f", "o"]),
   address: z.string().min(1, "Address is required"),
-  first_release_year: z.string().regex(/^\d{4}$/, {
-    message: "Invalid year format. Please use a 4-digit year (YYYY)",
-  }),
-  no_of_albums_released: z.string().default("0"),
+  first_release_year: z
+    .string()
+    .min(1, "First release year is required")
+    .regex(/^\d{4}$/, {
+      message: "Invalid year format. Please use a 4-digit year (YYYY)",
+    }),
+  no_of_albums_released: z
+    .string()
+    .min(1, "No of albums released is required")
+    .default("0"),
 });
 
 type artistDataType = z.infer<typeof ArtistSchema>;
@@ -25,12 +35,25 @@ const ArtistCreatePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log({ id });
   const methods = useForm({
     resolver: zodResolver(ArtistSchema),
   });
 
   const { register, handleSubmit, reset } = methods;
+  const { setBreadCrumbItem } = useContext(BreadcrumbContext);
+
+  useEffect(() => {
+    setBreadCrumbItem([
+      {
+        text: "Artist",
+        link: "/artist",
+      },
+      {
+        text: id ? "Edit" : "Create",
+        link: "/artist/create",
+      },
+    ]);
+  }, [setBreadCrumbItem]);
 
   useEffect(() => {
     //for update
@@ -85,7 +108,7 @@ const ArtistCreatePage = () => {
   return (
     <div className="create-artist">
       <div className="mb-5">
-        <h2 className="page-title">Create Artist</h2>
+        <h2 className="page-title">{id ? "Edit" : "Create"} Artist</h2>
       </div>
 
       <div>

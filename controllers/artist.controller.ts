@@ -11,18 +11,18 @@ import {
   UPDATE_ARTIST_QUERY,
 } from "../queries/artist.queries";
 import { customResponse } from "../utils/customResponse";
+import { SELECT_TOTAL_MUSICS_BY_ARTIST } from "../queries/music.queries";
 
 export const getAllArtists = async (req: Request, res: Response) => {
   try {
     const { page = 1 } = req.query;
-    const pageSize = 2;
+    const pageSize = 8;
     const offset = (parseInt(page as string) - 1) * pageSize;
 
     const [matches] = await db.query(GET_ALL_ARTISTS, [offset, pageSize]);
 
     const artists = matches as RowDataPacket[];
 
-    // Query to get total count of artists
     const [countRows] = await db.query(SELECT_TOTAL_ARTISTS);
     const total = countRows as RowDataPacket[];
     const totalCount = total[0].totalCount;
@@ -217,16 +217,26 @@ export const deleteArtistById = async (req: Request, res: Response) => {
 export const getMusicByArtist = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const { page = 1 } = req.query;
+    const pageSize = 8;
+    const offset = (parseInt(page as string) - 1) * pageSize;
 
-    const [matches] = await db.query(SELECT_MUSIC_BY_ARTIST, [id]);
+    const [matches] = await db.query(SELECT_MUSIC_BY_ARTIST, [
+      id,
+      offset,
+      pageSize,
+    ]);
 
     const music = matches as RowDataPacket[][0];
 
-    console.log({ music });
+    const [countRows] = await db.query(SELECT_TOTAL_MUSICS_BY_ARTIST, [id]);
+    const total = countRows as RowDataPacket[];
+    const totalCount = total[0].totalCount;
+
     res.status(200).send(
       customResponse({
         message: "Successfully retrieved music data",
-        payload: music,
+        payload: { music, totalCount },
       })
     );
   } catch (err) {

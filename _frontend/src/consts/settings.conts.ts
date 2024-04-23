@@ -1,3 +1,3 @@
 export const SETTINGS = {
-  PAGE_SIZE: 2,
+  PAGE_SIZE: 8,
 };

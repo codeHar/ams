@@ -22,7 +22,7 @@ export const FIND_USER_WITH_EMAIL = `
 `;
 
 export const GET_ALL_USERS = `
-    SELECT id, first_name, last_name, email, phone, dob, address, created_at FROM user
+    SELECT id, first_name, last_name, email, phone, dob, address, created_at FROM user LIMIT ?, ?
 `;
 
 export const GET_USER_BY_ID_QUERY = `
@@ -42,4 +42,8 @@ export const DELETE_USER_BY_ID_QUERY = `
 export const CREATE_USER_RECORD = `
     INSERT INTO user (first_name, last_name, email, phone, dob, gender, address)
     VALUES (?, ?, ?, ?, ?, ?, ?)
+`;
+
+export const SELECT_TOTAL_USERS = `
+  SELECT COUNT(*) AS totalCount FROM user;
 `;

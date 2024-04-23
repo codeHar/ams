@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserForm from "../../components/UserForm";
 import axios, { AxiosError } from "axios";
 import { FieldValues } from "react-hook-form";
@@ -6,11 +6,26 @@ import { toast } from "react-toastify";
 import { URLS } from "../../consts";
 import { registerDataType } from "../../interfaces";
 import { useNavigate, useParams } from "react-router-dom";
+import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
 
 const UserCreatePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { setBreadCrumbItem } = useContext(BreadcrumbContext);
+
+  useEffect(() => {
+    setBreadCrumbItem([
+      {
+        text: "User",
+        link: "/user",
+      },
+      {
+        text: id ? "Edit" : "Create",
+        link: `/create/${id}`,
+      },
+    ]);
+  }, [setBreadCrumbItem, id]);
 
   const submitData = async (data: registerDataType | FieldValues) => {
     try {
@@ -39,13 +54,13 @@ const UserCreatePage = () => {
   return (
     <div>
       <div className="mb-5">
-        <h2 className="page-title">Create User</h2>
+        <h2 className="page-title">{id ? "Edit" : "Create"} User</h2>
       </div>
 
       <UserForm
         submitData={submitData}
         isLoading={isLoading}
-        submitBtnTitle="Create User"
+        submitBtnTitle={id ? "Update User" : "Create User"}
         id={id}
       />
     </div>

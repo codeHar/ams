@@ -3,9 +3,23 @@ import UserTable from "../../components/UserTable";
 import { useGetAllUsers } from "../../services";
 import LoadingComp from "../../components/LoadingComp";
 import { Link } from "react-router-dom";
+import Pagination from "../../components/Pagination";
+import { useContext, useEffect, useState } from "react";
+import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
 
 const UserListPage = () => {
-  const { data, isLoading, error, isError } = useGetAllUsers();
+  const [pageNo, setPageNo] = useState(1);
+  const { data, isLoading, error, isError } = useGetAllUsers(pageNo);
+  const { setBreadCrumbItem } = useContext(BreadcrumbContext);
+
+  useEffect(() => {
+    setBreadCrumbItem([
+      {
+        text: "User",
+        link: "/user",
+      },
+    ]);
+  }, [setBreadCrumbItem]);
 
   if (isLoading) {
     return <LoadingComp />;
@@ -31,7 +45,7 @@ const UserListPage = () => {
   ];
 
   return (
-    <div className="flex flex-col max-h-full">
+    <div className="h-full max-h-full">
       <div className="mb-5 flex justify-between items-center gap-3">
         <h2 className="text-xl font-semibold">Users</h2>
         <Link
@@ -41,8 +55,15 @@ const UserListPage = () => {
           Add User
         </Link>
       </div>
-      <div className="table-wrapper flex-grow overflow-auto">
-        <UserTable data={data} tableTitles={tableTitles} />
+      <div className=" h-[calc(100%_-_40px)] overflow-hidden">
+        <div className="table-wrapper h-[calc(100%_-_68px)] mb-1 overflow-auto">
+          <UserTable data={data?.users} tableTitles={tableTitles} />
+        </div>
+        <Pagination
+          currentPage={pageNo}
+          setPageNo={setPageNo}
+          totalCount={data?.totalCount}
+        />
       </div>
     </div>
   );

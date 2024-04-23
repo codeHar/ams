@@ -57,7 +57,7 @@ button:focus-visible {
   @apply h-[calc(100%_-_var(--navbar-height))];
 }
 
-nav {
+.navbar {
   @apply h-[var(--navbar-height)];
 }
 
@@ -146,7 +146,7 @@ tbody td {
 }
 
 .table-wrapper::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 
 .table-wrapper::-webkit-scrollbar-thumb {
@@ -202,9 +202,8 @@ tbody td {
   padding: 0;
   margin: 0;
   list-style: none;
-  background-color: #f5f5f5;
   border-radius: 4px;
-  padding: 8px 15px;
+  padding: 0px 15px 8px;
 }
 
 .breadcrumb-item {
@@ -222,7 +221,7 @@ tbody td {
   text-decoration: none;
 }
 
-.breadcrumb-item::after {
+.breadcrumb-item:not(:first-child)::before {
   content: "/";
   margin: 0 5px;
   color: #777;

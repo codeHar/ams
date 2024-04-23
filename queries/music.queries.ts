@@ -27,3 +27,7 @@ export const UPDATE_MUSIC_QUERY = `
 export const DELETE_MUSIC_BY_ID_QUERY = `
   DELETE FROM music WHERE id = ?;
 `;
+
+export const SELECT_TOTAL_MUSICS_BY_ARTIST = `
+  SELECT COUNT(*) AS totalCount FROM music WHERE artist_id = ?;
+`;
