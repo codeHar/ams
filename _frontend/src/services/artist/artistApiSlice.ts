@@ -36,3 +36,14 @@ export async function deleteArtist(id: string) {
     );
   }
 }
+
+export async function importArtist(data: FormData) {
+  try {
+    const res = await axios.post<IResponse>(URLS.ARTIST.IMPORT_CSV, data);
+    return res.data?.message;
+  } catch (error: IResponse | any) {
+    throw new Error(
+      error?.response?.data?.message || "Failed to import artists"
+    );
+  }
+}

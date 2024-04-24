@@ -170,6 +170,7 @@ tbody td {
 .tooltip-container {
   position: relative;
   display: inline-block;
+  z-index: 10;
 }
 
 .tooltip-content {
@@ -186,7 +187,7 @@ tbody td {
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
+  top: 120%;
   left: 50%;
   margin-left: -60px;
   opacity: 0;
@@ -228,5 +229,9 @@ tbody td {
 }
 
 .pagination-container svg {
-  @apply h-7 w-7 min-h-7 max-h-7 cursor-pointer;
+  @apply h-7 w-7 min-h-7 min-w-7 cursor-pointer;
+}
+
+.artistActions svg {
+  @apply h-7 w-7 min-h-7 min-w-7 cursor-pointer;
 }

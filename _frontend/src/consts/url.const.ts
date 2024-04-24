@@ -15,6 +15,8 @@ export const URLS = {
     CREATE_ARTIST: `${baseUrl}/artist`,
     QUERY_BY_ID: (id: string) => `${baseUrl}/artist/${id}`,
     GET_MUSIC: (id: string) => `${baseUrl}/artist/${id}/music`,
+    EXPORT_CSV: `${baseUrl}/artist/export-csv`,
+    IMPORT_CSV: `${baseUrl}/artist/import-csv`,
   },
   MUSIC: {
     BASE_URL: `${baseUrl}/music`,

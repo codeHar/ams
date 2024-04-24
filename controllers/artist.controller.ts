@@ -12,6 +12,21 @@ import {
 } from "../queries/artist.queries";
 import { customResponse } from "../utils/customResponse";
 import { SELECT_TOTAL_MUSICS_BY_ARTIST } from "../queries/music.queries";
+import { createObjectCsvWriter } from "csv-writer";
+import csvParser from "csv-parser";
+import * as fs from "fs";
+
+type IArtist = {
+  ID: string;
+  Name: string;
+  "Date of Birth": string;
+  Gender: string;
+  Address: string;
+  "First Release Year": string;
+  "Number of Albums Released": number;
+  "Created At": string;
+  "Updated At": string;
+};
 
 export const getAllArtists = async (req: Request, res: Response) => {
   try {
@@ -248,6 +263,92 @@ export const getMusicByArtist = async (req: Request, res: Response) => {
     res.status(400).send(
       customResponse({
         message: "Error while getting music",
+        status: false,
+      })
+    );
+  }
+};
+
+export const exportArtistsToCSV = async (req: Request, res: Response) => {
+  try {
+    const [matches] = await db.query("SELECT * FROM artist");
+    const artists = matches as RowDataPacket[];
+
+    const csvFilePath = `./csv/artists${Date.now()}.csv`;
+    console.log("dasd");
+    const csvWriter = createObjectCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "id", title: "ID" },
+        { id: "name", title: "Name" },
+        { id: "dob", title: "Date of Birth" },
+        { id: "gender", title: "Gender" },
+        { id: "address", title: "Address" },
+        { id: "first_release_year", title: "First Release Year" },
+        { id: "no_of_albums_released", title: "Number of Albums Released" },
+        { id: "created_at", title: "Created At" },
+        { id: "updated_at", title: "Updated At" },
+      ],
+    });
+
+    console.log("were");
+
+    await csvWriter.writeRecords(artists);
+
+    console.log("writng");
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=artists.csv");
+
+    fs.createReadStream(csvFilePath).pipe(res);
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while export csv",
+        status: false,
+      })
+    );
+  }
+};
+
+export const importArtistFromCSV = async (req: Request, res: Response) => {
+  try {
+    const filePath = req?.file?.path;
+
+    const artists: IArtist[] = [];
+    fs.createReadStream(filePath ?? "../uploads")
+      .pipe(csvParser())
+      .on("data", (row) => {
+        artists.push(row);
+      })
+      .on("end", async () => {
+        for (const artist of artists) {
+          await db.query(CREATE_ARTIST, [
+            artist?.Name,
+            new Date(artist?.["Date of Birth"]),
+            artist?.Gender,
+            artist?.Address,
+            artist?.["First Release Year"],
+            artist?.["Number of Albums Released"],
+          ]);
+        }
+        console.log("Imported artists successfully");
+        res.sendStatus(200);
+      });
+  } catch (err) {
+    if (err instanceof Error) {
+      return res
+        .status(400)
+        .send(customResponse({ message: err?.message, status: false }));
+    }
+    res.status(400).send(
+      customResponse({
+        message: "Error while export csv",
         status: false,
       })
     );
