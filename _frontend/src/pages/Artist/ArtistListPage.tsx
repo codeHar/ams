@@ -4,13 +4,14 @@ import LoadingComp from "../../components/LoadingComp";
 import { useGetAllArtists } from "../../services";
 import { Link } from "react-router-dom";
 import Pagination from "../../components/Pagination";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
-import { exportIcon, importIcon } from "../../assets/svg";
+import { exportIcon } from "../../assets/svg";
 import axios from "axios";
 import { URLS } from "../../consts";
 import Tooltip from "../../components/ToolTip";
 import ImportButton from "./ImportButton";
+import EmptyComponent from "../../components/EmptyComponent";
 
 const ArtistListPage = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -96,7 +97,11 @@ const ArtistListPage = () => {
       </div>
       <div className=" h-[calc(100%_-_40px)] overflow-hidden">
         <div className="table-wrapper h-[calc(100%_-_68px)] mb-1 overflow-auto">
-          <ArtistTable data={data?.artists} tableTitles={tableTitles} />
+          {data?.artists && data.artists.length === 0 ? (
+            <EmptyComponent />
+          ) : (
+            <ArtistTable data={data?.artists} tableTitles={tableTitles} />
+          )}
         </div>
         <Pagination
           currentPage={pageNo}

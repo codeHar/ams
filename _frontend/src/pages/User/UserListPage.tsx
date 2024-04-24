@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 import { useContext, useEffect, useState } from "react";
 import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
+import EmptyComponent from "../../components/EmptyComponent";
 
 const UserListPage = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -57,7 +58,11 @@ const UserListPage = () => {
       </div>
       <div className=" h-[calc(100%_-_40px)] overflow-hidden">
         <div className="table-wrapper h-[calc(100%_-_68px)] mb-1 overflow-auto">
-          <UserTable data={data?.users} tableTitles={tableTitles} />
+          {data?.users && data.users.length === 0 ? (
+            <EmptyComponent />
+          ) : (
+            <UserTable data={data?.users} tableTitles={tableTitles} />
+          )}
         </div>
         <Pagination
           currentPage={pageNo}

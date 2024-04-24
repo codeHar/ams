@@ -33,7 +33,7 @@ const SideBar = () => {
 
   return (
     <div className="sidebar h-full w-1/5 shadow-md ">
-      <ul className="h-full overflow-auto py-5 px-10 flex flex-col gap-3">
+      <ul className="h-full overflow-auto py-5 px-5 lg:px-10 flex flex-col gap-3">
         {sidebarRoutes &&
           sidebarRoutes.map((route: Route, index: number) => (
             <li

@@ -11,6 +11,7 @@ import {
 } from "../controllers/artist.controller";
 import multer from "multer";
 import { authenticateToken } from "../utils/authenticate";
+import { validateCreateArtist } from "../validations";
 const Router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
@@ -24,7 +25,7 @@ Router.post(
 );
 
 Router.get("/:id", authenticateToken, getArtistById);
-Router.post("", authenticateToken, createArtist);
+Router.post("", authenticateToken, validateCreateArtist, createArtist);
 Router.put("/:id", authenticateToken, updateArtist);
 Router.delete("/:id", authenticateToken, deleteArtistById);
 Router.get("/:id/music", authenticateToken, getMusicByArtist);

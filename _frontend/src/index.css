@@ -229,7 +229,7 @@ tbody td {
 }
 
 .pagination-container svg {
-  @apply h-7 w-7 min-h-7 min-w-7 cursor-pointer;
+  @apply h-7 w-7 min-h-7 min-w-7;
 }
 
 .artistActions svg {

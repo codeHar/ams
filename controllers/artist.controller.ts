@@ -15,6 +15,7 @@ import { SELECT_TOTAL_MUSICS_BY_ARTIST } from "../queries/music.queries";
 import { createObjectCsvWriter } from "csv-writer";
 import csvParser from "csv-parser";
 import * as fs from "fs";
+import { validationResult } from "express-validator";
 
 type IArtist = {
   ID: string;
@@ -75,15 +76,16 @@ export const createArtist = async (req: Request, res: Response) => {
       no_of_albums_released,
     } = req.body;
 
-    if (
-      !name ||
-      !dob ||
-      !gender ||
-      !address ||
-      !first_release_year ||
-      !no_of_albums_released
-    ) {
-      throw new Error("All fields are required");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log({ errors: errors.array() });
+      return res.status(400).send(
+        customResponse({
+          message: errors.array()[0]?.msg,
+          status: false,
+          payload: errors.array(),
+        })
+      );
     }
 
     await db.query(CREATE_ARTIST, [
@@ -162,15 +164,16 @@ export const updateArtist = async (req: Request, res: Response) => {
       no_of_albums_released,
     } = req.body;
 
-    if (
-      !name ||
-      !dob ||
-      !gender ||
-      !address ||
-      !first_release_year ||
-      !no_of_albums_released
-    ) {
-      throw new Error("All fields are required");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log({ errors: errors.array() });
+      return res.status(400).send(
+        customResponse({
+          message: errors.array()[0]?.msg,
+          status: false,
+          payload: errors.array(),
+        })
+      );
     }
 
     await db.query(UPDATE_ARTIST_QUERY, [

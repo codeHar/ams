@@ -14,6 +14,7 @@ import {
 } from "../queries/user.queries";
 import { customResponse } from "../utils/customResponse";
 import { RowDataPacket } from "mysql2/promise";
+import { validationResult } from "express-validator";
 
 export const userRegister = async (req: Request, res: Response) => {
   try {
@@ -28,17 +29,15 @@ export const userRegister = async (req: Request, res: Response) => {
       address,
     } = req.body;
 
-    if (
-      !first_name ||
-      !last_name ||
-      !email ||
-      !password ||
-      !phone ||
-      !dob ||
-      !gender ||
-      !address
-    ) {
-      throw new Error("All fields are required");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send(
+        customResponse({
+          message: errors.array()[0]?.msg,
+          status: false,
+          payload: errors.array(),
+        })
+      );
     }
 
     const existingUser = await db.query(FIND_USER_WITH_EMAIL, [email]);
@@ -210,16 +209,15 @@ export const createUser = async (req: Request, res: Response) => {
     const { first_name, last_name, email, phone, dob, gender, address } =
       req.body;
 
-    if (
-      !first_name ||
-      !last_name ||
-      !email ||
-      !phone ||
-      !dob ||
-      !gender ||
-      !address
-    ) {
-      throw new Error("All fields are required");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send(
+        customResponse({
+          message: errors.array()[0]?.msg,
+          status: false,
+          payload: errors.array(),
+        })
+      );
     }
 
     await db.query(CREATE_USER_RECORD, [
@@ -258,16 +256,15 @@ export const updateUser = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
-    if (
-      !first_name ||
-      !last_name ||
-      !email ||
-      !phone ||
-      !dob ||
-      !gender ||
-      !address
-    ) {
-      throw new Error("All fields are required");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send(
+        customResponse({
+          message: errors.array()[0]?.msg,
+          status: false,
+          payload: errors.array(),
+        })
+      );
     }
 
     await db.query(UPDATE_USER_QUERY, [

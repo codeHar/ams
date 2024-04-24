@@ -6,6 +6,7 @@ import MusicTable from "../../components/MusicTable";
 import Pagination from "../../components/Pagination";
 import { useContext, useEffect, useState } from "react";
 import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
+import EmptyComponent from "../../components/EmptyComponent";
 
 const MusicListPage = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -60,7 +61,11 @@ const MusicListPage = () => {
       </div>
       <div className=" h-[calc(100%_-_40px)] overflow-hidden">
         <div className="table-wrapper h-[calc(100%_-_68px)] mb-1 overflow-auto">
-          <MusicTable data={data?.music} tableTitles={tableTitles} />
+          {data?.music && data?.music.length === 0 ? (
+            <EmptyComponent />
+          ) : (
+            <MusicTable data={data?.music} tableTitles={tableTitles} />
+          )}
         </div>
         <Pagination
           currentPage={pageNo}

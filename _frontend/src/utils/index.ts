@@ -1,11 +1,21 @@
 import axios from "axios";
 
-const auth = JSON.parse(localStorage.getItem("auth") ?? "");
+export const axiosInstance = axios.create();
 
-console.log(typeof auth, auth);
-
-export const axiosInstance = axios.create({
-  headers: {
-    Authorization: `Bearer ${auth?.token}`,
+axiosInstance.interceptors.request.use(
+  (config: any) => {
+    const token: string | null = JSON.parse(
+      localStorage.getItem("auth") ?? ""
+    )?.token;
+    return {
+      ...config,
+      headers: {
+        ...(token !== null && { Authorization: `Bearer ${token}` }),
+        ...config.headers,
+      },
+    };
   },
-});
+  (error) => {
+    return Promise.reject(error);
+  }
+);

@@ -12,7 +12,7 @@ const Pagination = ({
   setPageNo,
   totalCount = 1,
 }: PaginationType) => {
-  const maxPage = Math.ceil(totalCount / SETTINGS.PAGE_SIZE);
+  const maxPage = Math.max(1, Math.ceil(totalCount / SETTINGS.PAGE_SIZE));
   console.log({ maxPage });
   const onPrev = () => {
     setPageNo((prev) => Math.max(1, (prev -= 1)));
@@ -25,11 +25,23 @@ const Pagination = ({
   return (
     <div className="pagination-container w-full h-12 bg-gray-200 p-3 flex justify-center relative">
       <div className="flex gap-3 items-center">
-        <span onClick={onPrev}>{leftIcon}</span>
-        <span className="py-1 px-3 bg-white rounded-sm font-semibold">
+        <button
+          onClick={onPrev}
+          className="bg-transparent p-0 disabled:cursor-not-allowed"
+          disabled={currentPage <= 1 ? true : false}
+        >
+          {leftIcon}
+        </button>
+        <button className="py-1 px-3 bg-white rounded-sm font-semibold">
           {currentPage}
-        </span>
-        <span onClick={onNext}>{rightIcon}</span>
+        </button>
+        <button
+          onClick={onNext}
+          className="bg-transparent p-0 disabled:cursor-not-allowed"
+          disabled={currentPage >= maxPage ? true : false}
+        >
+          {rightIcon}
+        </button>
       </div>
 
       <div className="absolute right-0 -translate-x-full top-1/2 -translate-y-1/2">
