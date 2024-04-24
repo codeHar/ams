@@ -26,7 +26,7 @@ const UserListPage = () => {
   }
 
   if (isError) {
-    toast(error?.message);
+    toast.error(error?.message);
     return null;
   }
 

@@ -2,10 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "./Input";
 import { IUser, createUserSchema, registerDataType } from "../interfaces";
-import axios from "axios";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { URLS } from "../consts";
+import { axiosInstance } from "../utils";
 
 type UserFormType = {
   submitData: (data: registerDataType | FieldValues) => void;
@@ -30,14 +30,16 @@ const UserForm = ({
     if (id) {
       const fetchArtist = async () => {
         try {
-          const response = await axios.get(`${URLS.USER.QUERY_BY_ID(id)}`);
+          const response = await axiosInstance.get(
+            `${URLS.USER.QUERY_BY_ID(id)}`
+          );
           const userData: IUser = response?.data?.payload;
           reset({
             ...userData,
             dob: userData?.dob.toString().split("T")[0],
           });
         } catch (error) {
-          toast.error("Failed to fetch artist data");
+          toast.error("Failed to fetch user data");
         }
       };
 

@@ -10,17 +10,23 @@ import {
   updateArtist,
 } from "../controllers/artist.controller";
 import multer from "multer";
+import { authenticateToken } from "../utils/authenticate";
 const Router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
-Router.get("", getAllArtists);
-Router.get("/export-csv", exportArtistsToCSV);
-Router.post("/import-csv", upload.single("csv"), importArtistFromCSV);
+Router.get("", authenticateToken, getAllArtists);
+Router.get("/export-csv", authenticateToken, exportArtistsToCSV);
+Router.post(
+  "/import-csv",
+  authenticateToken,
+  upload.single("csv"),
+  importArtistFromCSV
+);
 
-Router.get("/:id", getArtistById);
-Router.post("", createArtist);
-Router.put("/:id", updateArtist);
-Router.delete("/:id", deleteArtistById);
-Router.get("/:id/music", getMusicByArtist);
+Router.get("/:id", authenticateToken, getArtistById);
+Router.post("", authenticateToken, createArtist);
+Router.put("/:id", authenticateToken, updateArtist);
+Router.delete("/:id", authenticateToken, deleteArtistById);
+Router.get("/:id/music", authenticateToken, getMusicByArtist);
 
 export default Router;

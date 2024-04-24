@@ -32,7 +32,7 @@ const ArtistListPage = () => {
   }
 
   if (isError) {
-    toast(error?.message);
+    toast.error(error?.message);
     return null;
   }
 

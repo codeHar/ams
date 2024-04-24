@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import UserForm from "../../components/UserForm";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
 import { URLS } from "../../consts";
 import { registerDataType } from "../../interfaces";
 import { useNavigate, useParams } from "react-router-dom";
 import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
+import { axiosInstance } from "../../utils";
 
 const UserCreatePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,9 +33,9 @@ const UserCreatePage = () => {
       setIsLoading(true);
       let response;
       if (id) {
-        response = await axios.put(URLS.USER.QUERY_BY_ID(id), data);
+        response = await axiosInstance.put(URLS.USER.QUERY_BY_ID(id), data);
       } else {
-        response = await axios.post(URLS.USER.CREATE_USER, data);
+        response = await axiosInstance.post(URLS.USER.CREATE_USER, data);
       }
 
       toast.success(response?.data?.message);

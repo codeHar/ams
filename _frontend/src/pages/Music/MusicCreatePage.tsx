@@ -4,9 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import z from "zod";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { URLS } from "../../consts";
+import { axiosInstance } from "../../utils";
 
 const MusicSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -34,7 +35,7 @@ const ArtistCreatePage = () => {
       const fetchArtist = async () => {
         try {
           setIsLoading(true);
-          const response = await axios.get(
+          const response = await axiosInstance.get(
             `${URLS.MUSIC.QUERY_BY_ID(musicId)}`
           );
           const artistData: musicDataType = response?.data?.payload;
@@ -59,9 +60,15 @@ const ArtistCreatePage = () => {
 
       let response;
       if (musicId) {
-        response = await axios.put(URLS.MUSIC.QUERY_BY_ID(musicId), data);
+        response = await axiosInstance.put(
+          URLS.MUSIC.QUERY_BY_ID(musicId),
+          data
+        );
       } else {
-        response = await axios.post(URLS.MUSIC.BASE_URL, { ...data, artistId });
+        response = await axiosInstance.post(URLS.MUSIC.BASE_URL, {
+          ...data,
+          artistId,
+        });
       }
 
       toast.success(response?.data?.message);

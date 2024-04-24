@@ -4,10 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import z from "zod";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { URLS } from "../../consts";
 import { BreadcrumbContext } from "../../contexts/BreadCrumbProvider";
+import { axiosInstance } from "../../utils";
 
 const ArtistSchema = z.object({
   name: z.string().min(1, "First name is required"),
@@ -61,7 +62,9 @@ const ArtistCreatePage = () => {
       const fetchArtist = async () => {
         try {
           setIsLoading(true);
-          const response = await axios.get(`${URLS.ARTIST.QUERY_BY_ID(id)}`);
+          const response = await axiosInstance.get(
+            `${URLS.ARTIST.QUERY_BY_ID(id)}`
+          );
           const artistData: artistDataType = response?.data?.payload;
           reset({
             ...artistData,
@@ -86,9 +89,9 @@ const ArtistCreatePage = () => {
       setIsLoading(true);
       let response;
       if (id) {
-        response = await axios.put(URLS.ARTIST.QUERY_BY_ID(id), data);
+        response = await axiosInstance.put(URLS.ARTIST.QUERY_BY_ID(id), data);
       } else {
-        response = await axios.post(URLS.ARTIST.CREATE_ARTIST, data);
+        response = await axiosInstance.post(URLS.ARTIST.CREATE_ARTIST, data);
       }
 
       toast.success(response?.data?.message);

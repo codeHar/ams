@@ -28,14 +28,14 @@ const MusicListPage = () => {
         link: `/artist/${artistId}/music`,
       },
     ]);
-  }, [setBreadCrumbItem]);
+  }, [setBreadCrumbItem, artistId]);
 
   if (isLoading) {
     return <LoadingComp />;
   }
 
   if (isError) {
-    toast(error?.message);
+    toast.error(error?.message);
     return null;
   }
 

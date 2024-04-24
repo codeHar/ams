@@ -3,7 +3,7 @@ import db from "../database";
 import {
   DELETE_MUSIC_BY_ID_QUERY,
   INSERT_MUSIC,
-  SELECT_MUSIC_BY_ARTIST,
+  SELECT_MUSIC,
   UPDATE_MUSIC_QUERY,
 } from "../queries/music.queries";
 import { RowDataPacket } from "mysql2";
@@ -43,7 +43,7 @@ export const getMusicById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const [matches] = await db.query(SELECT_MUSIC_BY_ARTIST, [id]);
+    const [matches] = await db.query(SELECT_MUSIC, [id]);
 
     const music = matches as RowDataPacket[][0];
 

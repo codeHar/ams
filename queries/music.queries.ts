@@ -18,6 +18,10 @@ export const SELECT_MUSIC_BY_ARTIST = `
   SELECT * FROM music WHERE artist_id = ?;
 `;
 
+export const SELECT_MUSIC = `
+  SELECT * FROM music WHERE id = ?;
+`;
+
 export const UPDATE_MUSIC_QUERY = `
   UPDATE music
   SET title = ?, album_name = ?, genre = ?

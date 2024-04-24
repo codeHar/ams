@@ -1,6 +1,6 @@
-import axios from "axios";
 import { IArtist } from "../../interfaces";
 import { URLS } from "../../consts";
+import { axiosInstance } from "../../utils";
 
 interface IResponse {
   status: boolean;
@@ -15,7 +15,7 @@ interface IGetArtist {
 
 export async function getAllArtists(pageNo: number = 1): Promise<IGetArtist> {
   try {
-    const res = await axios.get<IResponse>(
+    const res = await axiosInstance.get<IResponse>(
       URLS.ARTIST.GET_ALL_ARTISTS + `?page=${pageNo}`
     );
     return res.data?.payload;
@@ -28,7 +28,9 @@ export async function getAllArtists(pageNo: number = 1): Promise<IGetArtist> {
 
 export async function deleteArtist(id: string) {
   try {
-    const res = await axios.delete<IResponse>(URLS.ARTIST.QUERY_BY_ID(id));
+    const res = await axiosInstance.delete<IResponse>(
+      URLS.ARTIST.QUERY_BY_ID(id)
+    );
     return res.data?.message;
   } catch (error: IResponse | any) {
     throw new Error(
@@ -39,7 +41,10 @@ export async function deleteArtist(id: string) {
 
 export async function importArtist(data: FormData) {
   try {
-    const res = await axios.post<IResponse>(URLS.ARTIST.IMPORT_CSV, data);
+    const res = await axiosInstance.post<IResponse>(
+      URLS.ARTIST.IMPORT_CSV,
+      data
+    );
     return res.data?.message;
   } catch (error: IResponse | any) {
     throw new Error(
